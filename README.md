@@ -49,7 +49,7 @@ Which luggage spawns as unnamed luggage is determined by the map rotation. So th
 
 The items you find inside unnamed luggage will **_always_** be unnamed branded.
 
-Otherwise, they function just like their vanilla counterpart. Large luggage have more/rarer items than small ones and so on. 
+Otherwise, they function just like their vanilla counterpart. Large unnamed luggage have more/rarer items than small ones and so on. 
 
 You can also encounter unnamed Ancient Statues (identifiable with its bright yellow coloring), which will **_always_** give you unnamed mystical items.
 
