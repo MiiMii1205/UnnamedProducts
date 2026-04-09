@@ -1380,8 +1380,6 @@ public partial class UnnamedPlugin : BaseUnityPlugin
             }
             case "Rescue Claw":
             {
-                it.gameObject.SetActive(false);
-
                 var oldComponent = it.gameObject.GetOrAddComponent<RescueHook>();
                 var hok = it.gameObject.GetOrAddComponent<UnnamedRescueHook>();
 
@@ -1435,9 +1433,7 @@ public partial class UnnamedPlugin : BaseUnityPlugin
                 hok.afterLetGoDragSeconds = oldComponent.afterLetGoDragSeconds;
                 hok.afterLetGoDragTime = oldComponent.afterLetGoDragTime;
                 hok.selfFallSeconds = oldComponent.selfFallSeconds;
-
-                it.gameObject.SetActive(true);
-
+                
                 Destroy(oldComponent);
 
                 break;

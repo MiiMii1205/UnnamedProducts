@@ -33,7 +33,7 @@ public class LuggageBrandHandler : MonoBehaviourPunCallbacks
         if (shouldBeUnnamed && !isUnnamed)
         {
             UnnamedPlugin.Log.LogInfo(
-                $"Setting luggage {this.luggage.name} brand to unnamed.");
+                $"Setting luggage {luggage} brand to unnamed.");
 
             luggage.gameObject.name = "com.github.MiiMii1205.UnnamedProducts:Unnamed" + luggage.gameObject.name;
 
@@ -47,8 +47,6 @@ public class LuggageBrandHandler : MonoBehaviourPunCallbacks
                 {
                     var sanitizedName = renderer.materials[i].name.Replace("(Instance)", "").Replace("(Clone)", "")
                         .Trim();
-
-                    UnnamedPlugin.Log.LogInfo(sanitizedName);
 
                     switch (sanitizedName)
                     {
