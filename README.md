@@ -177,3 +177,10 @@ If you find any bugs or have any suggestion,
 please [open an issue on the GitHub repository here](https://github.com/MiiMii1205/UnnamedProducts/issues/new).
 
 Include as much info as possible, and we'll respond as soon as we can.
+
+## ✨ Contributors ##
+
+- [Hiverdose](https://x.com/Hiverdose) for the antifreeze model and testing
+- [wistiti](https://github.com/WistitiPNF-404) for testing and feedback
+- And everyone else in my play group who tested this in beta for the last 2 months!
+
