@@ -181,6 +181,6 @@ Include as much info as possible, and we'll respond as soon as we can.
 ## ✨ Contributors ##
 
 - [Hiverdose](https://x.com/Hiverdose) for the antifreeze model and testing
-- [wistiti](https://github.com/WistitiPNF-404) for testing and feedback
-- And everyone else in my play group who tested this in beta for the last 2 months!
+- [Wistiti](https://github.com/WistitiPNF-404) ([Thunderstore](https://thunderstore.io/c/hades-ii/p/Wistiti/)) for testing and feedback
+- ... and everyone else in my play group who tested this in beta for the last 2 months!
 
