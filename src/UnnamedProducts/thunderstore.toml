@@ -1,0 +1,54 @@
+[config]
+schemaVersion = "0.0.1"
+
+[general]
+repository = "https://thunderstore.io"
+
+[package]
+namespace = "OracleTeam"
+name = "UnnamedProducts"
+description = "Adds unnamed branded food and equipment to PEAK"
+websiteUrl = "" # TODO: Add a link to your mod repository here (optional)
+containsNsfwContent = false
+
+[package.dependencies]
+BepInEx-BepInExPack_PEAK = "5.4.2403"
+PEAKModding-PEAKLib_Core = "1.7.2"
+PEAKModding-PEAKLib_Items = "1.6.0"
+
+[build]
+icon = "../../icon.png"
+readme = "../../README.md"
+outdir = "../../artifacts/thunderstore/"
+
+[[build.copy]]
+source = "../../artifacts/bin/UnnamedProducts/release/com.github.MiiMii1205.UnnamedProducts.dll"
+target = "plugins/"
+
+[[build.copy]]
+source = "../../CHANGELOG.md"
+target = "/"
+
+[[build.copy]]
+source = "../../LICENSE"
+target = "/"
+
+[[build.copy]]
+source = "../../src/UnnamedProducts/UnnamedLocalizedText.csv"
+target = "plugins/"
+
+[[build.copy]]
+source = "../../src/UnnamedProducts/bundles"
+target = "plugins/"
+
+# The following config options only apply when using TCLI to publish to Thunderstore directly:
+
+[publish]
+# See communities at:
+# https://thunderstore.io/api/experimental/community/
+communities = [ "peak", ]
+
+[publish.categories]
+# See categories at:
+# https://thunderstore.io/api/experimental/community/peak/category/
+peak = ["mods", "all", "items"]
