@@ -7,8 +7,8 @@ repository = "https://thunderstore.io"
 [package]
 namespace = "OracleTeam"
 name = "UnnamedProducts"
-description = "Adds unnamed branded food and equipment to PEAK"
-websiteUrl = "" # TODO: Add a link to your mod repository here (optional)
+description = "Adds unnamed branded products to PEAK from a certain famous Canadian store brand"
+websiteUrl = "https://github.com/MiiMii1205/UnnamedProducts" 
 containsNsfwContent = false
 
 [package.dependencies]

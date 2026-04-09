@@ -40,7 +40,10 @@ Whenever you start a run, some luggage will spawn as unnamed luggage.
 
 You can identify unnamed luggage with their iconic yellow and black color scheme.
 
-<img src="https://raw.githubusercontent.com/MiiMii1205/UnnamedProducts/refs/heads/master/imgs/unnamedluggage.png" height="512" />
+<figure>
+  <img alt="Unnamed Luggage" src="https://raw.githubusercontent.com/MiiMii1205/UnnamedProducts/refs/heads/master/imgs/unnamedluggage.png" height="512" />
+  <figcaption>An small unnamed luggage</figcaption>
+</figure>
 
 Which luggage spawns as unnamed luggage is determined by the map rotation. So the same luggage will always spawn unnamed within the same map rotation.
 
@@ -56,7 +59,11 @@ When starting a run, there's also a chance the crashed airplane at the shore wil
 
 Unnamed airplanes can be easily identified with their yellow and black color scheme.
 
-<img src="https://raw.githubusercontent.com/MiiMii1205/UnnamedProducts/refs/heads/master/imgs/crashedairplane.png" height="512" />
+<figure>
+  <img alt="Chrashed unnamed airplane" src="https://raw.githubusercontent.com/MiiMii1205/UnnamedProducts/refs/heads/master/imgs/crashedairplane.png" height="512" />
+  <figcaption>An unnamed airplane at the Shore</figcaption>
+</figure>
+
 
 Whether the shore airplane is unnamed or not depends on the map rotation, just like unnamed luggage.
 
@@ -71,7 +78,9 @@ Here's a quick list:
 
 ### Windshield Washer Fluid ###
 
-<img src="https://raw.githubusercontent.com/MiiMii1205/UnnamedProducts/refs/heads/master/imgs/antifreeze.png" height="256" />
+<figure>
+  <img src="https://raw.githubusercontent.com/MiiMii1205/UnnamedProducts/refs/heads/master/imgs/antifreeze.png" height="256" />
+</figure>
 
 Rarity
 : Legendary
@@ -93,7 +102,9 @@ Windshield washer fluid with antifreeze. What you do with it is up to you, thoug
 
 ### Laundry Detergent ###
 
+<figure>
 <img src="https://raw.githubusercontent.com/MiiMii1205/UnnamedProducts/refs/heads/master/imgs/laundrydetergent.png" height="256" />
+</figure>
 
 Rarity
 : Legendary
@@ -114,7 +125,9 @@ A fresh scented laundry detergent. Can be used to deeply clean your clothes.
 
 ### Garbage Bag Box ###
 
-<img src="https://raw.githubusercontent.com/MiiMii1205/UnnamedProducts/refs/heads/master/imgs/garbagebagbox.png" height="256" />
+<figure>
+  <img src="https://raw.githubusercontent.com/MiiMii1205/UnnamedProducts/refs/heads/master/imgs/garbagebagbox.png" height="256" />
+</figure>
 
 Rarity
 : Mythical
@@ -160,4 +173,7 @@ So if you have those kind of mods, don't trust what's being displayed! Because j
 
 ## 🐛 Issues ##
 
-If you find any bugs with the mod or have any suggestion, please add a ticket to the git repo. We'll take a look and respond as soon as possible!
+If you find any bugs or have any suggestion,
+please [open an issue on the GitHub repository here](https://github.com/MiiMii1205/UnnamedProducts/issues/new).
+
+Include as much info as possible, and we'll respond as soon as we can.
