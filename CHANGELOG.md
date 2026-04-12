@@ -7,7 +7,6 @@
 - Fixed a bug with unnamed item spawn restrictions being ignored
 - Balanced flair duds chance from 50% to 33%
 
-
 ## [1.0.1] - 2026-04-11
 
 ### Changed ###
