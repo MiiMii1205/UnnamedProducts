@@ -140,13 +140,13 @@ public partial class UnnamedPlugin : BaseUnityPlugin
 
 
         GlobalEvents.OnItemRequested += CheckForStickyFireballs;
-        
+
         this.LoadBundleWithName("unnamed.peakbundle", peakBundle =>
         {
             var antifreese = peakBundle.LoadAsset<GameObject>("Antifreeze.prefab");
 
             Log.LogInfo($"Loading Antifreeze...");
-            
+
             foreach (var comp in antifreese.GetComponentsInChildren<MeshRenderer>())
             {
                 comp.sortingOrder = 1;
@@ -482,6 +482,32 @@ public partial class UnnamedPlugin : BaseUnityPlugin
                 PlaneMaterials[matName] = planeMaterial;
             }
 
+            // Fetch mirrage materials
+
+            MirageMaterials = new Dictionary<string, Material>();
+
+            string[] mirageMaterialList =
+            [
+                "Luggage_Large_Mirage",
+                "Luggage_Ancient_Mirage",
+                "Luggage_AncientChain_Mirage",
+                "Luggage_AncientCrystal_Mirage",
+                "Luggage-mirage",
+                "Luggage_Epic_Mirage",
+            ];
+
+            foreach (var matName in mirageMaterialList)
+            {
+                var mirageMaterial = peakBundle.LoadAsset<Material>($"M_Unnamed{matName}.mat");
+
+                mirageMaterial.shader =
+                    ThrowHelper.ThrowIfArgumentNull(Shader.Find(mirageMaterial.shader.name));
+
+                Log.LogInfo($"Added mirage material named {mirageMaterial.name}.");
+
+                MirageMaterials[matName] = mirageMaterial;
+            }
+
             SmallLuggageMaterial.shader =
                 ThrowHelper.ThrowIfArgumentNull(Shader.Find(SmallLuggageMaterial.shader.name));
             SmallLuggageInteriorMaterial.shader =
@@ -595,11 +621,11 @@ public partial class UnnamedPlugin : BaseUnityPlugin
             var ltext = text.gameObject.GetOrAddComponent<LocalizedText>();
 
             ltext.fontStyle = LocalizedText.FontStyle.Shadow;
-            
+
             ltext.index = "KIOSK_READY_TEXT";
             ltext.tmp = text;
             ltext.autoSet = true;
-            
+
             UnnamedKioskSetup = setup;
 
             // Broken standees on island
@@ -1432,7 +1458,7 @@ public partial class UnnamedPlugin : BaseUnityPlugin
                 hok.afterLetGoDragSeconds = oldComponent.afterLetGoDragSeconds;
                 hok.afterLetGoDragTime = oldComponent.afterLetGoDragTime;
                 hok.selfFallSeconds = oldComponent.selfFallSeconds;
-                
+
                 Destroy(oldComponent);
 
                 break;
@@ -2048,6 +2074,8 @@ public partial class UnnamedPlugin : BaseUnityPlugin
 
     public Dictionary<string, Material> PlaneMaterials { get; set; } = null!;
 
+    public Dictionary<string, Material> MirageMaterials { get; set; } = null!;
+
     private Material GetUnnamedMaterial(Material vanillaMaterial, PeakBundle peakBundle)
     {
         var materialName = vanillaMaterial.name;
@@ -2163,8 +2191,6 @@ public partial class UnnamedPlugin : BaseUnityPlugin
     {
         var possibleUnnamedIconName =
             $"Unnamed {it.UIData.icon.name}.png";
-
-        Log.LogInfo(it.UIData.icon.name + "," + possibleUnnamedIconName);
 
         if (peakBundle.Contains(possibleUnnamedIconName))
         {
@@ -2299,6 +2325,7 @@ public partial class UnnamedPlugin : BaseUnityPlugin
             Log.LogInfo("GENERATING LEVEL SEEDS!!!");
             GenerateSeedStates(MapHandler.Instance.gameObject.GetComponent<LevelGeneration>());
 
+            // Storing the state 
             var prevState = Random.state;
 
             foreach (var ms in MapHandler.Instance.segments)
@@ -2327,6 +2354,7 @@ public partial class UnnamedPlugin : BaseUnityPlugin
                         var planeFront = planeSetup.transform.Find("front half");
                         var planeLoneWing = planeSetup.transform.Find("Wings.003");
 
+                        // Rip Harlin, you'll be missed
                         Instantiate(UnnamedBrokenStandeeSetup, planeBack);
 
                         var rendererList = planeBack.GetComponentsInChildren<Renderer>(true)
@@ -2363,6 +2391,7 @@ public partial class UnnamedPlugin : BaseUnityPlugin
                             renderer.SetMaterials([..mats]);
                         }
 
+                        // Set the plane's items to unnamed
                         var planeSetupItemSpawners = planeSetup.GetComponentsInChildren<SingleItemSpawner>(true);
 
                         foreach (var sis in planeSetupItemSpawners)
@@ -2395,12 +2424,24 @@ public partial class UnnamedPlugin : BaseUnityPlugin
                     }
                 }
 
+                var luggsMirages = baseBiomeObject.GetComponentsInChildren<MirageLuggage>(true);
+
+                foreach (var mirage in luggsMirages)
+                {
+                    // No need to use RPC. Mirages don't even have PhotonViews anyways
+                    if (ShouldBeUnnamed)
+                    {
+                        SetMirageAsUnnamed(mirage);
+                    }
+                }
+
                 var singleItemSpawns = baseBiomeObject.GetComponentsInChildren<SingleItemSpawner>(true);
 
                 foreach (var sis in singleItemSpawns)
                 {
                     if (sis.prefab.gameObject.TryGetComponent<Dynamite>(out _))
                     {
+                        // Single item spawners don't have any view on them.
                         if (ShouldBeUnnamed)
                         {
                             RenameToUnnamed(sis.gameObject);
@@ -2412,8 +2453,46 @@ public partial class UnnamedPlugin : BaseUnityPlugin
                 BiomeSeeds[ms._biome] = Random.state;
             }
 
+            // Reinstante the state
             Random.state = prevState;
         }
+    }
+
+    private void SetMirageAsUnnamed(MirageLuggage mirage)
+    {
+        foreach (var mirageRenderer in mirage.renderers)
+        {
+            var newMats = new List<Material>();
+
+            var mats = mirageRenderer.materials;
+
+            foreach (var mat in mats)
+            {
+                newMats.Add(GetMirageMaterial(mat));
+            }
+
+            mirageRenderer.SetMaterials(newMats);
+        }
+    }
+
+    private Material GetMirageMaterial(Material vanillaMaterial)
+    {
+        var materialName = vanillaMaterial.name;
+
+        var sanitizedMaterialName = materialName.Replace("(Instance)", "").Replace("(Clone)", "").Trim();
+
+        var possibleUnnamedMaterialName =
+            $"{sanitizedMaterialName.Replace("m_", "M_").Replace("M_", "M_Unnamed").Trim()}";
+
+        if (CustomStartsWith(sanitizedMaterialName, "M_Unnamed"))
+        {
+            var unnamedMaterial = vanillaMaterial;
+            unnamedMaterial.shader =
+                ThrowHelper.ThrowIfArgumentNull(Shader.Find(unnamedMaterial.shader.name));
+            return unnamedMaterial;
+        }
+
+        return MirageMaterials[possibleUnnamedMaterialName];
     }
 
     private static readonly Dictionary<Biome.BiomeType, Random.State> BiomeSeeds = new();
@@ -2424,7 +2503,7 @@ public partial class UnnamedPlugin : BaseUnityPlugin
 
     public static void GenerateSeedStates(LevelGeneration gens)
     {
-        // Generate subseeds for each 
+        // Generate subseeds for each biome using the map's seed
 
         var prevState = Random.state;
 
@@ -2500,15 +2579,18 @@ public partial class UnnamedPlugin : BaseUnityPlugin
 
             if (locName != "CURRENT_LANGUAGE")
             {
-
                 if (locName == "KIOSK_READY_TEXT")
                 {
                     for (var i = 0; i < valList.Count; i++)
                     {
                         valList[i] = valList[i].Replace("#modname", Name).Replace("#version", Version);
+
+#if DEBUG
+                        valList[i] += " (DEBUG)";
+#endif
                     }
                 }
-                
+
                 LocalizedText.mainTable[locName] = valList;
                 Log.LogDebug($"Added localization of {locName}");
             }
@@ -2560,7 +2642,7 @@ public partial class UnnamedPlugin : BaseUnityPlugin
         try
         {
             NetworkPrefabManager.SpawnNetworkPrefab(BigUnnamedLuggagePrefab.name, spawnPosition, spawnRotation);
-            Log.LogInfo((object) $"Spawned Big Unnamed luggage at {spawnPosition}");
+            Log.LogInfo($"Spawned Big Unnamed luggage at {spawnPosition}");
         }
         catch (Exception ex)
         {
@@ -2577,7 +2659,7 @@ public partial class UnnamedPlugin : BaseUnityPlugin
         try
         {
             NetworkPrefabManager.SpawnNetworkPrefab(SmallUnnamedLuggagePrefab.name, spawnPosition, spawnRotation);
-            Log.LogInfo($"Spawned Big Unnamed luggage at {spawnPosition}");
+            Log.LogInfo($"Spawned Small Unnamed luggage at {spawnPosition}");
         }
         catch (Exception ex)
         {
@@ -2594,7 +2676,7 @@ public partial class UnnamedPlugin : BaseUnityPlugin
         try
         {
             NetworkPrefabManager.SpawnNetworkPrefab(EpicUnnamedLuggagePrefab.name, spawnPosition, spawnRotation);
-            Log.LogInfo($"Spawned Big Unnamed luggage at {spawnPosition}");
+            Log.LogInfo($"Spawned Epic Unnamed luggage at {spawnPosition}");
         }
         catch (Exception ex)
         {
@@ -2611,7 +2693,7 @@ public partial class UnnamedPlugin : BaseUnityPlugin
         try
         {
             NetworkPrefabManager.SpawnNetworkPrefab(AncientUnnamedLuggagePrefab.name, spawnPosition, spawnRotation);
-            Log.LogInfo($"Spawned Big Unnamed luggage at {spawnPosition}");
+            Log.LogInfo($"Spawned Ancient Unnamed luggage at {spawnPosition}");
         }
         catch (Exception ex)
         {
@@ -2638,7 +2720,7 @@ public partial class UnnamedPlugin : BaseUnityPlugin
 
                 Log.LogInfo($"Faster boi move speed from {fast.moveSpeedMod}/s to {moveSpeedMod}/s");
                 Log.LogInfo($"Faster boi climb speed from {fast.climbSpeedMod}/s to {climbSpeedMod}/s");
-                Log.LogInfo($"Faster boi drowsyness on end from {fast.drowsyOnEnd} to {drowsyOnEnd}");
+                Log.LogInfo($"Faster boi drowsiness on end from {fast.drowsyOnEnd} to {drowsyOnEnd}");
 
                 fast.moveSpeedMod = moveSpeedMod;
                 fast.climbSpeedMod = climbSpeedMod;
