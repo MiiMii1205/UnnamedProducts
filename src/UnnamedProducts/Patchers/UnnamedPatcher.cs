@@ -51,7 +51,7 @@ public static class UnnamedPatcher
 
                 if (__instance.currentClimbingSpikeItemSlot != null)
                 {
-                    ItemSlot itemSlot = __instance.currentClimbingSpikeItemSlot;
+                    var itemSlot = __instance.currentClimbingSpikeItemSlot;
                     __instance.currentClimbingSpikeItemSlot = null;
                     __instance.currentClimbingSpikeComponent = null;
                     __instance.character.player.EmptySlot(Optionable<byte>.Some(itemSlot.itemSlotID));
@@ -76,7 +76,7 @@ public static class UnnamedPatcher
     public static void WaterMovementPostfix(CharacterMovement __instance)
     {
         // Character became wet. Check if they're on fire and extinguish everything if they are.
-        if (__instance.gameObject.TryGetComponent<CharacterBurnController>(out var g))
+        if (__instance.gameObject.TryGetComponent(out CharacterBurnController g))
         {
             g.ExtinguishFires();
         }
@@ -89,7 +89,7 @@ public static class UnnamedPatcher
     {
         if (__instance.character.data.heldVine != null)
         {
-            if (__instance.character.data.heldVine.TryGetComponent<UnnamedVine>(out var nnv))
+            if (__instance.character.data.heldVine.TryGetComponent(out UnnamedVine nnv))
             {
                 nnv.RemovePlayerFromVine(__instance.character);
             }
@@ -112,7 +112,7 @@ public static class UnnamedPatcher
     [HarmonyPostfix]
     public static void GrabVineRpcPostfix(CharacterVineClimbing __instance, PhotonView ropeView, int segmentIndex)
     {
-        if (ropeView.TryGetComponent<UnnamedVine>(out var nnv))
+        if (ropeView.TryGetComponent(out UnnamedVine nnv))
         {
             nnv.AddPlayerToVine(__instance.character);
         }

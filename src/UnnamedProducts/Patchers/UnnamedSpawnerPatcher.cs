@@ -20,7 +20,7 @@ internal static class UnnamedSpawnerPatcher
     public static void IsValidToSpawnPostfix(Item __instance, ref bool __result)
     {
         if ((UnnamedPlugin.IsUnnamed(__instance.gameObject) || UnnamedPlugin.IsUnnamedUnique(__instance.gameObject)) &&
-            __instance.gameObject.TryGetComponent<UnnamedSpawnRestriction>(out var restrictions))
+            __instance.gameObject.TryGetComponent(out UnnamedSpawnRestriction restrictions))
         {
             var meetsBiomeChecks = true;
             var meetsColdNights = true;
