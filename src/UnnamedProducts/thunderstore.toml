@@ -7,7 +7,7 @@ repository = "https://thunderstore.io"
 [package]
 namespace = "OracleTeam"
 name = "UnnamedProducts"
-description = "Adds unnamed branded products to PEAK from a certain famous Canadian store brand"
+description = "Adds unnamed branded item variants to PEAK from a certain famous Canadian store brand"
 websiteUrl = "https://github.com/MiiMii1205/UnnamedProducts" 
 containsNsfwContent = false
 
