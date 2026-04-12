@@ -126,7 +126,7 @@ public class LuggageBrandHandler : MonoBehaviourPunCallbacks
             }
 
 
-            this.isUnnamed = true;
+            isUnnamed = true;
         }
     }
 
@@ -152,7 +152,7 @@ public class LuggageBrandHandler : MonoBehaviourPunCallbacks
         {
             if (shouldBeUnnamed && !isUnnamed)
             {
-                this.photonView.RPC(nameof(RPC_RequestUpdate), RpcTarget.MasterClient);
+                photonView.RPC(nameof(RPC_RequestUpdate), RpcTarget.MasterClient);
             }
         }
     }
@@ -163,7 +163,7 @@ public class LuggageBrandHandler : MonoBehaviourPunCallbacks
         {
             if (shouldBeUnnamed)
             {
-                this.photonView.RPC(nameof(RPC_SetLuggageAsUnnamed), newPlayer, true);
+                photonView.RPC(nameof(RPC_SetLuggageAsUnnamed), newPlayer, true);
             }
         }
     }
