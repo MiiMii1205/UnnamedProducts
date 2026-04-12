@@ -82,7 +82,7 @@ public class UnnamedFlare: Flare
     {
         return new BoolItemData
         {
-            Value = !UnnamedPlugin.IsUnnamedLucky(1/3f),
+            Value = UnnamedPlugin.IsUnnamedLucky(1/3f),
         };
     }
 }
