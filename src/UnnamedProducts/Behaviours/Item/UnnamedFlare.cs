@@ -66,7 +66,7 @@ public class UnnamedFlare: Flare
             cook.explosionPrefab = null;
         }
 
-        UnnamedPlugin.Log.LogInfo($"{nameof(UnnamedFlare)} {item.name} is {(isDud ? "a dud" : "not a dud")}");
+        UnnamedPlugin.Log.LogInfo($"{nameof(UnnamedFlare)} {item} is {(isDud ? "a dud" : "not a dud")}");
         base.OnInstanceDataSet();
     }
 
@@ -82,8 +82,7 @@ public class UnnamedFlare: Flare
     {
         return new BoolItemData
         {
-            Value = (1.0f * Random.Range(1.0f - UnnamedPlugin.UnnamedModifier, 1.0f + UnnamedPlugin.UnnamedModifier)) >=
-                    1.0f,
+            Value = !UnnamedPlugin.IsUnnamedLucky(1/3f),
         };
     }
 }
