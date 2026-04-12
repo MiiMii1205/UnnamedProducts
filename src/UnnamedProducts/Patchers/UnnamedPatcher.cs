@@ -7,7 +7,6 @@ using UnnamedProducts.Behaviours.Item;
 using UnnamedProducts.Behaviours.Item.GarbageBag;
 using UnnamedProducts.Behaviours.Item.GarbageBag.GUI;
 using Photon.Pun;
-using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.UI.Extensions;
 using Zorro.Core;
@@ -79,6 +78,42 @@ public static class UnnamedPatcher
         if (__instance.gameObject.TryGetComponent(out CharacterBurnController g))
         {
             g.ExtinguishFires();
+        }
+    }
+
+    [HarmonyPatch(typeof(WaterfallTrigger), nameof(WaterfallTrigger.OnTriggerStay))]
+    [HarmonyPostfix]
+    public static void WaterfallPostfix(WaterfallTrigger __instance, Collider other)
+    {
+        // Character became wet. Check if they're on fire and extinguish everything if they are.
+        if (other.gameObject.GetComponentInParent<Character>() is { } chara )
+        {
+            if(chara.TryGetComponent(out CharacterBurnController g))
+            {
+                g.ExtinguishFires();
+            }
+        }
+        else if (other.TryGetComponent(out StickyFireballController fireball))
+        {
+            fireball.Extinguish();
+        }
+    }
+
+    [HarmonyPatch(typeof(WaterfallPusher), nameof(WaterfallPusher.OnTriggerEnter))]
+    [HarmonyPrefix]
+    public static void WaterfallPushPrefix(WaterfallPusher __instance, Collider other)
+    {
+        // Character became wet. Check if they're on fire and extinguish everything if they are.
+        if (other.GetComponentInParent<Character>() is { } chara  )
+        {
+            if(chara.IsLocal && Time.time > __instance.cooldown + __instance.cooldownTimer && chara.TryGetComponent(out CharacterBurnController g))
+            {
+                g.ExtinguishFires();
+            }
+        }
+        else if (other.TryGetComponent(out StickyFireballController fireball))
+        {
+            fireball.Extinguish();
         }
     }
 
