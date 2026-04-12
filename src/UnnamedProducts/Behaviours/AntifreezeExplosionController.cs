@@ -11,8 +11,6 @@ public class AntifreezeExplosionController: MonoBehaviour
 
     private void Start()
     {
-        Instantiate(explosionPrefab);
-
         var exp = Instantiate(explosionPrefab, transform.position, transform.rotation);
 
         exp.SetActive(true);
