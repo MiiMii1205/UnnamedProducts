@@ -32,6 +32,7 @@ namespace UnnamedProducts;
 [BepInDependency(PiggyBank.Plugin.Id, BepInDependency.DependencyFlags.SoftDependency)]
 [BepInDependency("com.github.MiiMii1205.CanadianCuisine", BepInDependency.DependencyFlags.SoftDependency)]
 [BepInDependency("com.github.BurningSulphur.Scouting4Food", BepInDependency.DependencyFlags.SoftDependency)]
+[BepInDependency("evaisa.PeakThings", BepInDependency.DependencyFlags.SoftDependency)]
 public partial class UnnamedPlugin : BaseUnityPlugin
 {
     public const float UnnamedModifier = 50 / 100f;
@@ -139,21 +140,13 @@ public partial class UnnamedPlugin : BaseUnityPlugin
 
 
         GlobalEvents.OnItemRequested += CheckForStickyFireballs;
-
-        // BepInEx also gives us a config file for easy configuration.
-        // See https://lethal.wiki/dev/intermediate/custom-configs
-
-        // We can apply our hooks here.
-        // See https://lethal.wiki/dev/fundamentals/patching-code
-
-        // Log our awake here so we can see it in LogOutput.log file
-
+        
         this.LoadBundleWithName("unnamed.peakbundle", peakBundle =>
         {
             var antifreese = peakBundle.LoadAsset<GameObject>("Antifreeze.prefab");
 
             Log.LogInfo($"Loading Antifreeze...");
-
+            
             foreach (var comp in antifreese.GetComponentsInChildren<MeshRenderer>())
             {
                 comp.sortingOrder = 1;
@@ -568,6 +561,12 @@ public partial class UnnamedPlugin : BaseUnityPlugin
                     Destroy(ld);
 
                     AddItemToDatabase(originalItemName, newVariant.gameObject);
+
+                    // Hotfix for PeakThings
+                    if (originalItemName == "Lantern")
+                    {
+                        newIt.gameObject.name += "_lant";
+                    }
 
                     (new ItemContent(newIt)).Register(ModDefinition.GetOrCreate(Info));
                 }
