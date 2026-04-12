@@ -59,7 +59,17 @@ internal static class UnnamedSpawnerPatcher
                 meetsColdNights = true;
             }
 
-            __result = meetsColdNights || meetsBiomeChecks;
+            if (hasColdNightChecks && hasBiomeChecks)
+            {
+                __result = meetsColdNights || meetsBiomeChecks;
+            } else if (hasColdNightChecks)
+            {
+                __result = meetsColdNights;
+            }
+            else if (hasBiomeChecks) 
+            {
+                __result = meetsBiomeChecks;
+            }
 
             UnnamedPlugin.Log.LogInfo(
                 $"{__instance.GetName()} ({__instance.gameObject.name}) is {(__result ? "VALID" : "INVALID")} to spawn!");
