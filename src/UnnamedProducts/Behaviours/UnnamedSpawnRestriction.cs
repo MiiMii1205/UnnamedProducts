@@ -7,4 +7,6 @@ public class UnnamedSpawnRestriction: MonoBehaviour
     public Biome.BiomeType[] biomeType = [];
     public bool whenNightIsCold = false;
     public bool hasColdNightRestrictions = false;
+    public bool hasZombieRestrictions = false;
+    public bool whenZombieSpawnGlobally = false;
 }

@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.2.0] - 2026-04-13
+
+### Added ###
+
+- Added global zombie spawn detection
+
+### Changed ###
+
+- Change the Laundry Detergent's spawn data so it could spawn anywhere when zombies are global.
+
 ## [1.1.0] - 2026-04-12
 
 ### Added ###

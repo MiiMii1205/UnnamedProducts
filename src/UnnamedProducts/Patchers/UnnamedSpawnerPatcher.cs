@@ -24,9 +24,14 @@ internal static class UnnamedSpawnerPatcher
         {
             var meetsBiomeChecks = true;
             var meetsColdNights = true;
+            var meetsGlobalZombies = true;
             
             var hasBiomeChecks = restrictions.biomeType.Length > 0;
             var hasColdNightChecks = restrictions.hasColdNightRestrictions;
+            var hasZombieRestrictions = restrictions.hasZombieRestrictions;
+
+            var isNightCold = Ascents.isNightCold;
+            var canZombieSpawnGlobally = UnnamedPlugin.DoesZombiesSpawnGlobally();
             
             if (hasBiomeChecks)
             {
@@ -52,48 +57,81 @@ internal static class UnnamedSpawnerPatcher
 
             if (hasColdNightChecks)
             {
-                meetsColdNights = restrictions.whenNightIsCold == Ascents.isNightCold;
+                meetsColdNights = restrictions.whenNightIsCold == isNightCold;
             }
             else
             {
                 meetsColdNights = true;
             }
 
-            if (hasColdNightChecks && hasBiomeChecks)
+            if (hasZombieRestrictions)
             {
-                __result = meetsColdNights || meetsBiomeChecks;
+                meetsGlobalZombies = restrictions.whenZombieSpawnGlobally == canZombieSpawnGlobally;
+            }
+
+            if (hasColdNightChecks && hasBiomeChecks && hasZombieRestrictions)
+            {
+                __result = meetsColdNights || meetsBiomeChecks || meetsGlobalZombies;
+                
             } else if (hasColdNightChecks)
             {
-                __result = meetsColdNights;
+                if (hasZombieRestrictions)
+                {
+                    __result = meetsColdNights || meetsGlobalZombies;
+                }
+                else
+                {
+                    __result = meetsColdNights;
+                }
             }
             else if (hasBiomeChecks) 
             {
-                __result = meetsBiomeChecks;
+                if (hasZombieRestrictions)
+                {
+                    __result = meetsBiomeChecks || meetsGlobalZombies;
+                }
+                else
+                {
+                    __result = meetsBiomeChecks;
+                }
+            } else if (hasZombieRestrictions)
+            {
+                __result = meetsGlobalZombies;
             }
 
             UnnamedPlugin.Log.LogInfo(
                 $"{__instance.GetName()} ({__instance.gameObject.name}) is {(__result ? "VALID" : "INVALID")} to spawn!");
 
-            if (!meetsBiomeChecks)
+            List<string> output = [];
+
+            if (hasBiomeChecks)
             {
-                if (hasColdNightChecks)
-                {
-                    UnnamedPlugin.Log.LogInfo(
-                        meetsColdNights
-                            ? $"We're NOT in {__instance.GetName()}'s biome, but nights are {(restrictions.whenNightIsCold ? "COLD" : "WARM")} (needed: {(restrictions.whenNightIsCold ? "COLD NIGHTS" : "WARM NIGHTS")}, got {(Ascents.isNightCold ? "COLD NIGHTS" : "WARM NIGHTS")})."
-                            : $"We're NOT in {__instance.GetName()}'s biome and don't meet the night cold settings for global spawn (needed: {(restrictions.whenNightIsCold ? "COLD NIGHTS" : "WARM NIGHTS")}, got {(Ascents.isNightCold ? "COLD NIGHTS" : "WARM NIGHTS")}).");
-                }
-                else
-                {
-                    UnnamedPlugin.Log.LogInfo(
-                        $"We're NOT in {__instance.GetName()}'s biome.");
-                }
+                output.Add((meetsBiomeChecks
+                    ? $"We're inside {__instance.GetName()}'s biome"
+                    : $"We're NOT in {__instance.GetName()}'s biome"));
             }
-            else
+
+            if (hasColdNightChecks)
             {
-                UnnamedPlugin.Log.LogInfo(
-                    $"We're inside {__instance.GetName()}'s biome");
+                output.Add(
+                    meetsColdNights
+                        ? $"Nights are {(restrictions.whenNightIsCold ? "COLD" : "WARM")} for global spawn (needed: {(restrictions.whenNightIsCold ? "COLD NIGHTS" : "WARM NIGHTS")}, got {(isNightCold ? "COLD NIGHTS" : "WARM NIGHTS")})"
+                        : $"Night are NOT {(restrictions.whenNightIsCold ? "COLD" : "WARM")}  for global spawn (needed: {(restrictions.whenNightIsCold ? "COLD NIGHTS" : "WARM NIGHTS")}, got {(isNightCold ? "COLD NIGHTS" : "WARM NIGHTS")})");
+                
             }
+            
+            if (hasZombieRestrictions)
+            {
+                output.Add(
+                    meetsGlobalZombies
+                        ? $"Zombies can {(restrictions.whenZombieSpawnGlobally ? "span" : "not spawn")} globably (needed: {(restrictions.whenZombieSpawnGlobally ? "GLOBAL SPAWN" : "NO SPAWN")}, got {(canZombieSpawnGlobally ? "GLOBAL SPAWN" : "NO SPAWN")})"
+                        : $"Zombies cannot {(restrictions.whenZombieSpawnGlobally ? "span" : "not spawn")}  globably (needed: {(restrictions.whenZombieSpawnGlobally ? "GLOBAL SPAWN" : "NO SPAWN")}, got {(canZombieSpawnGlobally ? "GLOBAL SPAWN" : "NO SPAWN")})");
+                
+            }
+
+            UnnamedPlugin.Log.LogInfo(
+                output.Join(null,",")
+            );
         }
     }
 

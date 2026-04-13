@@ -33,6 +33,13 @@ namespace UnnamedProducts;
 [BepInDependency("com.github.MiiMii1205.CanadianCuisine", BepInDependency.DependencyFlags.SoftDependency)]
 [BepInDependency("com.github.BurningSulphur.Scouting4Food", BepInDependency.DependencyFlags.SoftDependency)]
 [BepInDependency("evaisa.PeakThings", BepInDependency.DependencyFlags.SoftDependency)]
+[BepInDependency("tony4twenty.PEAK_Zombies", BepInDependency.DependencyFlags.SoftDependency)]
+[BepInDependency("com.EMOKaMi.Zombie", BepInDependency.DependencyFlags.SoftDependency)]
+[BepInDependency("com.emokami.mimic", BepInDependency.DependencyFlags.SoftDependency)]
+[BepInDependency("Heroes", BepInDependency.DependencyFlags.SoftDependency)]
+[BepInDependency("sinik.zombiespawner", BepInDependency.DependencyFlags.SoftDependency)]
+[BepInDependency("com.github.Thanks.ShootZombies", BepInDependency.DependencyFlags.SoftDependency)]
+[BepInDependency("legocool.LuckyBlocks", BepInDependency.DependencyFlags.SoftDependency)]
 public partial class UnnamedPlugin : BaseUnityPlugin
 {
     public const float UnnamedModifier = 50 / 100f;
@@ -110,6 +117,15 @@ public partial class UnnamedPlugin : BaseUnityPlugin
     }
 
 
+    private static readonly string[] GlobalZombieSpawnModList =
+    [
+        "com.EMOKaMi.Zombie",
+        "com.emokami.mimic",
+        "Heroes",
+        "sinik.zombiespawner",
+        "legocool.LuckyBlocks"
+    ];
+
     public static GameObject UnnamedGarbageBagPrefab = null!;
     public static Texture2D GarbageBagIcon = null!;
 
@@ -138,6 +154,8 @@ public partial class UnnamedPlugin : BaseUnityPlugin
 
         Log.LogInfo($"Plugin {Name} is loading...");
 
+        _hasAnyGlobalSpawningZombies =
+            GlobalZombieSpawnModList.Any(BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey);
 
         GlobalEvents.OnItemRequested += CheckForStickyFireballs;
 
@@ -304,6 +322,9 @@ public partial class UnnamedPlugin : BaseUnityPlugin
 
             drestrc.biomeType = drestrc.biomeType.AddToArray(Biome.BiomeType.Roots).AddToArray(Biome.BiomeType.Mesa)
                 .AddToArray(Biome.BiomeType.Alpine);
+
+            drestrc.hasZombieRestrictions = true;
+            drestrc.whenZombieSpawnGlobally = true;
 
             var dpool = detergent.GetOrAddComponent<LootData>();
             dpool.spawnLocations = UnnamedSpawnPool;
@@ -2500,6 +2521,7 @@ public partial class UnnamedPlugin : BaseUnityPlugin
     private static readonly int UnderlayOffsetY = Shader.PropertyToID("_UnderlayOffsetY");
     private static readonly int UnderlaySoftness = Shader.PropertyToID("_UnderlaySoftness");
     private static readonly int UnderlayColor = Shader.PropertyToID("_UnderlayColor");
+    private static bool _hasAnyGlobalSpawningZombies;
 
     public static void GenerateSeedStates(LevelGeneration gens)
     {
@@ -2830,6 +2852,39 @@ public partial class UnnamedPlugin : BaseUnityPlugin
 
                 break;
         }
+    }
+
+    public static bool DoesZombiesSpawnGlobally()
+    {
+        if (BepInEx.Bootstrap.Chainloader.PluginInfos.TryGetValue("tony4twenty.PEAK_Zombies", out var peakZombieInfo))
+        {
+            if (peakZombieInfo.Instance.Config.TryGetEntry<bool>("General", "DisableZombies",
+                    out var zombieDisabledConfig) &&
+                peakZombieInfo.Instance.Config.TryGetEntry<bool>("General", "AutoSpawnEnabled",
+                    out var zombieAutoSpawnConfig)
+               )
+            {
+                if (zombieDisabledConfig.Value)
+                {
+                    return zombieAutoSpawnConfig.Value;
+                }
+            }
+        }
+
+        if (BepInEx.Bootstrap.Chainloader.PluginInfos.TryGetValue("com.github.Thanks.ShootZombies",
+                out var shootZombiesInfo))
+        {
+            if (shootZombiesInfo.Instance.Config.TryGetEntry<bool>("Zombie Spawn", "Zombie Spawn",
+                    out var zombieSpawnConfig))
+            {
+                if (zombieSpawnConfig.Value)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return _hasAnyGlobalSpawningZombies;
     }
 
     public void AddItemToDatabase(string originalItemName, GameObject newVariantGameObject)

@@ -110,7 +110,7 @@ Rarity
 : Legendary
 
 Location
-: Roots Luggage, Mesa Luggage, Alpine Luggage
+: Roots Luggage, Mesa Luggage, Alpine Luggage (Any luggage when some specific mods are detected)
 
 Tags
 : None
