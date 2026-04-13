@@ -73,6 +73,10 @@ internal static class UnnamedSpawnerPatcher
             {
                 __result = meetsColdNights || meetsBiomeChecks || meetsGlobalZombies;
                 
+            } else if (hasColdNightChecks && hasBiomeChecks && !hasZombieRestrictions)
+            {
+                __result = meetsColdNights || meetsBiomeChecks;
+                
             } else if (hasColdNightChecks)
             {
                 if (hasZombieRestrictions)
