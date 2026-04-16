@@ -2090,7 +2090,9 @@ public partial class UnnamedPlugin : BaseUnityPlugin
             return PlaneMaterials[possibleUnnamedMaterialName.Replace("Plane", "PlaneWings")];
         }
 
-        return PlaneMaterials[possibleUnnamedMaterialName];
+
+        return PlaneMaterials.GetValueOrDefault(possibleUnnamedMaterialName, vanillaMaterial);
+
     }
 
     public Dictionary<string, Material> PlaneMaterials { get; set; } = null!;
@@ -2513,7 +2515,7 @@ public partial class UnnamedPlugin : BaseUnityPlugin
             return unnamedMaterial;
         }
 
-        return MirageMaterials[possibleUnnamedMaterialName];
+        return MirageMaterials.GetValueOrDefault(possibleUnnamedMaterialName, vanillaMaterial);
     }
 
     private static readonly Dictionary<Biome.BiomeType, Random.State> BiomeSeeds = new();
