@@ -39,8 +39,8 @@ public class UnnamedCampfire: Campfire
     }
     
     [PunRPC]
-    public new void Light_Rpc(bool updateSegment)
+    public new void Light_Rpc(bool updateSegment, float burningFor)
     {
-        base.Light_Rpc(updateSegment);
+        base.Light_Rpc(updateSegment, burningFor);
     }
 }

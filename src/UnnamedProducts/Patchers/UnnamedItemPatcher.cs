@@ -533,7 +533,7 @@ public static class UnnamedItemPatcher
         if (UnnamedPlugin.IsUnnamed(__instance.item.gameObject))
         {
             if (UnnamedPlugin.RandomUnnamedBool && __instance.character is { } chara &&
-                chara.GetBodypart(BodypartType.Head) is { } head)
+                chara.refs.head is { } head)
             {
                 __runOriginal = false;
 

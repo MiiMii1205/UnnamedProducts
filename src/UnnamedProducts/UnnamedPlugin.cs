@@ -136,7 +136,9 @@ public partial class UnnamedPlugin : BaseUnityPlugin
         Log = Logger;
 
         UnnamedInfo = Info;
-
+        _modInfoPrefix = $"{ModDefinition.GetOrCreate(UnnamedInfo).Id}:";
+        _unnamedPrefix = $"{_modInfoPrefix}Unnamed";
+        
         AddLocalizedTextCsv();
 
         int max = 0;
@@ -751,7 +753,7 @@ public partial class UnnamedPlugin : BaseUnityPlugin
 
     private static string CleanItemName(string dirtyName)
     {
-        return dirtyName.Replace($"{ModDefinition.GetOrCreate(UnnamedInfo).Id}:", "").Replace("(Clone)", "")
+        return dirtyName.Replace(_modInfoPrefix, "").Replace("(Clone)", "")
             .Replace("(Instanced)", "");
     }
 
@@ -2307,12 +2309,12 @@ public partial class UnnamedPlugin : BaseUnityPlugin
 
     public static bool IsUnnamed(GameObject go)
     {
-        return CustomStartsWith(go.name, $"{ModDefinition.GetOrCreate(UnnamedInfo).Id}:Unnamed");
+        return CustomStartsWith(go.name, _unnamedPrefix);
     }
 
     public static bool IsUnnamedUnique(GameObject go)
     {
-        var cleanedName = go.name.Replace($"{ModDefinition.GetOrCreate(UnnamedInfo).Id}:", "").Replace("(Clone)", "")
+        var cleanedName = go.name.Replace(_modInfoPrefix, "").Replace("(Clone)", "")
             .Replace("(Instance)", "").Trim();
 
         return UnnamedUniques.Contains(cleanedName);
@@ -2524,6 +2526,9 @@ public partial class UnnamedPlugin : BaseUnityPlugin
     private static readonly int UnderlaySoftness = Shader.PropertyToID("_UnderlaySoftness");
     private static readonly int UnderlayColor = Shader.PropertyToID("_UnderlayColor");
     private static bool _hasAnyGlobalSpawningZombies;
+    
+    private static string _unnamedPrefix = null!;
+    private static string _modInfoPrefix = null!;
 
     public static void GenerateSeedStates(LevelGeneration gens)
     {
