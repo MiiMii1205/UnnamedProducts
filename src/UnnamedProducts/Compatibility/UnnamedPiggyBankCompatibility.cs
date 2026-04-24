@@ -16,7 +16,7 @@ public static class UnnamedPiggyBankCompatibility
             if (_enabled == null)
             {
                 _enabled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(
-                    PiggyBank.Plugin.Id);
+                    "com.github.MiiMii1205.PiggyBank");
                 UnnamedPlugin.Log.LogInfo($"PiggyBank support is {((bool) _enabled ? "enabled" : "disabled")}");
             }
 

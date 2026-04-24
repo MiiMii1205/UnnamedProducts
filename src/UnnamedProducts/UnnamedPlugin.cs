@@ -29,7 +29,7 @@ namespace UnnamedProducts;
 [BepInAutoPlugin]
 [BepInDependency(ItemsPlugin.Id)]
 [BepInDependency(CorePlugin.Id)]
-[BepInDependency(PiggyBank.Plugin.Id, BepInDependency.DependencyFlags.SoftDependency)]
+[BepInDependency("com.github.MiiMii1205.PiggyBank", BepInDependency.DependencyFlags.SoftDependency)]
 [BepInDependency("com.github.MiiMii1205.CanadianCuisine", BepInDependency.DependencyFlags.SoftDependency)]
 [BepInDependency("com.github.BurningSulphur.Scouting4Food", BepInDependency.DependencyFlags.SoftDependency)]
 [BepInDependency("evaisa.PeakThings", BepInDependency.DependencyFlags.SoftDependency)]

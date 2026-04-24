@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.3] - 2026-04-24
+
+### Changed ###
+
+- Soft Dependency fixes.
+- Fireball fixes
+
 ## [1.2.2] - 2026-04-23
 
 ### Changed ###

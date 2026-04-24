@@ -247,7 +247,7 @@ public class StickyFireballController : MonoBehaviourPun
     }
 
 
-    private void StickTo(GameObject sticking)
+    public void StickTo(GameObject sticking)
     {
         if (sticking.GetComponentInParent<Character>() is {IsLocal: true} chara)
         {
