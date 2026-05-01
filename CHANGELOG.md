@@ -5,6 +5,7 @@
 ### Changed ###
 
 - Fixed compatibility with luggage spawning mods
+- Fixed soft dependencies errors
 
 ## [1.2.3] - 2026-04-24
 

@@ -27,6 +27,7 @@ using Random = UnityEngine.Random;
 namespace UnnamedProducts;
 
 [BepInAutoPlugin]
+[BepInDependency(SoftDependencyFix.Plugin.Id)]
 [BepInDependency(ItemsPlugin.Id)]
 [BepInDependency(CorePlugin.Id)]
 [BepInDependency("com.github.MiiMii1205.PiggyBank", BepInDependency.DependencyFlags.SoftDependency)]

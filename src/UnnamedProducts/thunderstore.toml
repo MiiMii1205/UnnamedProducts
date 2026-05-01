@@ -15,6 +15,7 @@ containsNsfwContent = false
 BepInEx-BepInExPack_PEAK = "5.4.2403"
 PEAKModding-PEAKLib_Core = "1.7.2"
 PEAKModding-PEAKLib_Items = "1.6.0"
+PEAKModding-SoftDependencyFix = "1.0.0"
 
 [build]
 icon = "../../icon.png"

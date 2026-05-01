@@ -16,6 +16,7 @@
         <PackageReference Include="PEAKModding.PEAKLib.Items" Version="*"/>
         <PackageReference Update="Hamunii.BepInEx.AutoPlugin" Version="*"/>
         <PackageReference Include="OracleTeam-PiggyBank" Version="*" Private="False"/>
+        <PackageReference Include="PEAKModding-SoftDependencyFix" Version="*" Private="False"/>
     </ItemGroup>
     
     <ItemGroup>
