@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.2.4] - 2026-05-01
+
+### Changed ###
+
+- Fixed compatibility with luggage spawning mods
+
 ## [1.2.3] - 2026-04-24
 
 ### Changed ###

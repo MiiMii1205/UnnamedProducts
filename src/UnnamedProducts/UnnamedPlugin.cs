@@ -759,7 +759,7 @@ public partial class UnnamedPlugin : BaseUnityPlugin
 
     private GameObject GenerateUnnamedLuggagePrefab(string normalPrefabName)
     {
-        var newLuggage = Resources.Load<GameObject>(normalPrefabName);
+        var newLuggage = Instantiate(Resources.Load<GameObject>(normalPrefabName));
 
         var brand = newLuggage.AddComponent<LuggageBrandHandler>();
 
