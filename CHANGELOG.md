@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.3.0] - 2026-05-06
+
+### Added ###
+
+- Added Lucky Blocks support:
+  - Custom outcomes for Lucky Blocks
+
+### Changed ###
+
+- Fixed compatibility with luggage spawning mods
+- Fixed soft dependencies errors
+
 ## [1.2.4] - 2026-05-01
 
 ### Changed ###

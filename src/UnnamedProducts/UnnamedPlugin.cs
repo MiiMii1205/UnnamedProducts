@@ -735,9 +735,9 @@ public partial class UnnamedPlugin : BaseUnityPlugin
             UnnamedCanadianCompatibility.LoadCompatibilityBundle(this);
         }
 
-        if (UnnamedPiggyBankCompatibility.enabled)
+        if (UnnamedLuckyBlocksCompatibility.enabled)
         {
-            UnnamedPiggyBankCompatibility.LoadCompatibilityBundle(this, harmony);
+            UnnamedLuckyBlocksCompatibility.LoadCompatibilityBundle(this, harmony);
         }
 
 

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using PEAKLib.Core;
 using Photon.Pun;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace UnnamedProducts.Behaviours;
 
@@ -34,6 +36,15 @@ public class CharacterBurnController : MonoBehaviourPun
             }
 
             m_hasFire = false;
+        }
+    }
+    
+    [PunRPC]
+    public void SpawnFireballRPC(Vector3 position)
+    {
+        if (NetworkPrefabManager.TryGetNetworkPrefab($"{UnnamedPlugin.Id}:AntifreezeExplosion", out var p))
+        {
+            Object.Instantiate(p, position, Quaternion.identity);
         }
     }
 
