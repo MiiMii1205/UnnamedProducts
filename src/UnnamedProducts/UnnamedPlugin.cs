@@ -2358,8 +2358,10 @@ public partial class UnnamedPlugin : BaseUnityPlugin
             {
                 Random.state = BiomeSeeds[ms._biome];
 
-                var baseBiomeObject = ms._segmentParent.transform.parent.parent;
-
+                Logger.LogInfo(ms.biome);
+                
+                var baseBiomeObject = ms.segmentParent.transform.parent.parent;
+                
                 if (ms._biome == Biome.BiomeType.Shore)
                 {
                     // Test to see if plane is unnamed

@@ -140,7 +140,7 @@ public class UnnamedRescueHook : RescueHook
 
         if (hit.transform)
         {
-            var componentInParent = hit.transform.GetComponentInParent<Character>();
+            hit.transform.GetComponentInParent<Character>();
             UnnamedPlugin.Log.LogDebug(
                 $"Hit: {hit.collider.name} Rig: {hit.rigidbody}, !hit.rigidbody: {!hit.rigidbody}");
 
@@ -149,7 +149,7 @@ public class UnnamedRescueHook : RescueHook
             // evil
             var shouldHitCharacter = UnnamedPlugin.RandomUnnamedBool;
 
-            if (componentInParent && shouldHitCharacter)
+            if (CharacterRagdoll.TryGetCharacterFromCollider(hit.collider, out var componentInParent) && shouldHitCharacter)
             {
                 UnnamedPlugin.Log.LogInfo(
                     $"Grabbing {componentInParent.characterName} for at most {maxScoutHookTime} seconds instead of {originalMaxWallHookTime}");
