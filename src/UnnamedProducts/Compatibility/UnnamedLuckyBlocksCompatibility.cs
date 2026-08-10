@@ -125,7 +125,7 @@ public static class UnnamedLuckyBlocksCompatibility
 
         var cat = 0;
         
-        while (Util.Coinflip() && cat < 4)
+        while (Util.Coinflip() && cat < 5)
         {
             cat++;
         }
@@ -143,6 +143,11 @@ public static class UnnamedLuckyBlocksCompatibility
                 break;
             case 3:
                 PhotonNetwork.Instantiate(UnnamedPlugin.AncientUnnamedLuggagePrefab.name,
+                    col.contacts[0].point, rot);
+                break;
+            case 4:
+                // TODO: Instantiate Clown 
+                PhotonNetwork.Instantiate(UnnamedPlugin.ClownUnnamedLuggagePrefab.name,
                     col.contacts[0].point, rot);
                 break;
             case 0:

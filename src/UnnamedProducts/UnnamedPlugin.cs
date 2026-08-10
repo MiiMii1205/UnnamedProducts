@@ -57,6 +57,10 @@ public partial class UnnamedPlugin : BaseUnityPlugin
     public static Material SmallLuggageInteriorMaterial { get; private set; } = null!;
     public static Material LargeLuggageMaterial { get; private set; } = null!;
     public static Material EpicLuggageMaterial { get; private set; } = null!;
+
+    public static Material ClownLuggageMaterial { get; private set; } = null!;
+    
+    public static Material ClownLuggageInteriorMaterial { get; private set; } = null!;
     public static Material LargeLuggageInteriorMaterial { get; private set; } = null!;
     public static Material AncientLuggageMaterial { get; private set; } = null!;
     public static Material AncientLuggageMetalMaterial { get; private set; } = null!;
@@ -71,6 +75,8 @@ public partial class UnnamedPlugin : BaseUnityPlugin
     public static SpawnPool UnnamedSpawnPool { get; private set; } = 0;
 
     public static GameObject BigUnnamedLuggagePrefab { get; private set; } = null!;
+    
+    public static GameObject ClownUnnamedLuggagePrefab { get; private set; } = null!;
     public static GameObject SmallUnnamedLuggagePrefab { get; private set; } = null!;
     public static GameObject EpicUnnamedLuggagePrefab { get; private set; } = null!;
     public static GameObject AncientUnnamedLuggagePrefab { get; private set; } = null!;
@@ -456,13 +462,17 @@ public partial class UnnamedPlugin : BaseUnityPlugin
             gbbpool.spawnLocations = UnnamedSpawnPool;
 
             UnnamedUniques.Add(garbageBagBoxP.name.Trim());
-
-
+            
             SmallLuggageMaterial = peakBundle.LoadAsset<Material>("M_UnnamedLuggage.mat");
             SmallLuggageInteriorMaterial = peakBundle.LoadAsset<Material>("M_UnnamedLuggage_interior.mat");
             EpicLuggageMaterial = peakBundle.LoadAsset<Material>("M_UnnamedLuggage_epic.mat");
             LargeLuggageMaterial = peakBundle.LoadAsset<Material>("M_UnnamedLuggage_large.mat");
             LargeLuggageInteriorMaterial = peakBundle.LoadAsset<Material>("M_UnnamedLuggage_interior_large.mat");
+            
+            // TODO: Replace it with clowns 
+            ClownLuggageMaterial = peakBundle.LoadAsset<Material>("M_UnnamedLuggage_large.mat");
+            ClownLuggageInteriorMaterial = peakBundle.LoadAsset<Material>("M_UnnamedLuggage_interior_large.mat");
+            
             AncientLuggageMaterial = peakBundle.LoadAsset<Material>("M_UnnamedLuggage_ancient.mat");
             AncientLuggageMetalMaterial = peakBundle.LoadAsset<Material>("M_UnnamedMetal.mat");
             AncientLuggageCrystalMaterial = peakBundle.LoadAsset<Material>("M_UnnamedRock_Crystal.mat");
@@ -542,6 +552,12 @@ public partial class UnnamedPlugin : BaseUnityPlugin
                 ThrowHelper.ThrowIfArgumentNull(Shader.Find(LargeLuggageMaterial.shader.name));
             LargeLuggageInteriorMaterial.shader =
                 ThrowHelper.ThrowIfArgumentNull(Shader.Find(LargeLuggageInteriorMaterial.shader.name));
+            
+            ClownLuggageMaterial.shader =
+                ThrowHelper.ThrowIfArgumentNull(Shader.Find(ClownLuggageMaterial.shader.name));
+            ClownLuggageInteriorMaterial.shader =
+                ThrowHelper.ThrowIfArgumentNull(Shader.Find(ClownLuggageInteriorMaterial.shader.name));
+            
             AncientLuggageMaterial.shader =
                 ThrowHelper.ThrowIfArgumentNull(Shader.Find(AncientLuggageMaterial.shader.name));
             AncientLuggageMetalMaterial.shader =
@@ -568,7 +584,9 @@ public partial class UnnamedPlugin : BaseUnityPlugin
             Log.LogInfo($"Added material named {SmallLuggageInteriorMaterial.name}.");
             Log.LogInfo($"Added material named {EpicLuggageMaterial.name}.");
             Log.LogInfo($"Added material named {LargeLuggageMaterial.name}.");
+            Log.LogInfo($"Added material named {ClownLuggageMaterial.name}.");
             Log.LogInfo($"Added material named {LargeLuggageInteriorMaterial.name}.");
+            Log.LogInfo($"Added material named {ClownLuggageInteriorMaterial.name}.");
             Log.LogInfo($"Added material named {AncientLuggageMaterial.name}.");
             Log.LogInfo($"Added material named {AncientLuggageMetalMaterial.name}.");
             Log.LogInfo($"Added material named {AncientLuggageCrystalMaterial.name}.");
@@ -581,6 +599,7 @@ public partial class UnnamedPlugin : BaseUnityPlugin
             Log.LogInfo($"Added material named {RespawnStatueTropicsMaterial.name}.");
             Log.LogInfo($"Added material named {RespawnStatueShoreMaterial.name}.");
 
+            // TODO: Add new Unnamed variants 
             List<ushort> allUnnamedVariantsIdLists =
             [
                 0, 1, 2, 7, 115, 17, 18, 24, 106, 27, 29, 32, 152, 99, 33, 70, 35, 42, 43, 44, 58, 98, 61, 62, 100, 63,
@@ -628,6 +647,8 @@ public partial class UnnamedPlugin : BaseUnityPlugin
             SmallUnnamedLuggagePrefab = GenerateUnnamedLuggagePrefab("0_Items/LuggageSmall");
             EpicUnnamedLuggagePrefab = GenerateUnnamedLuggagePrefab("0_Items/LuggageEpic");
             AncientUnnamedLuggagePrefab = GenerateUnnamedLuggagePrefab("0_Items/LuggageAncient");
+            
+            // ClownUnnamedLuggagePrefab = GenerateUnnamedLuggagePrefab("0_Items/LuggageClown");
 
 
             // Airport setup
@@ -2679,6 +2700,23 @@ public partial class UnnamedPlugin : BaseUnityPlugin
         catch (Exception ex)
         {
             Log.LogError($"spawnsmallluggage: Failed - {ex.Message}");
+        }
+    }
+
+    [ConsoleCommand]
+    public static void SpawnClownUnnamedLuggage()
+    {
+        var spawnPosition = GetSpawnPosition();
+        var spawnRotation = GetSpawnRotation();
+
+        try
+        {
+            NetworkPrefabManager.SpawnNetworkPrefab(ClownUnnamedLuggagePrefab.name, spawnPosition, spawnRotation);
+            Log.LogInfo($"Spawned Clown Unnamed luggage at {spawnPosition}");
+        }
+        catch (Exception ex)
+        {
+            Log.LogError($"spawnclownuggage: Failed - {ex.Message}");
         }
     }
 

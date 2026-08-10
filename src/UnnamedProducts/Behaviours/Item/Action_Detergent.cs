@@ -17,6 +17,8 @@ public class Action_Detergent: ItemAction
         character.refs.afflictions.SubtractStatus(CharacterAfflictions.STATUSTYPE.Spores, Mathf.Abs(5f));
         character.refs.afflictions.SubtractStatus(CharacterAfflictions.STATUSTYPE.Web, Mathf.Abs(5f));
         
+        // TODO: See if new status effects needs to be added here
+        
         character.view.RPC(nameof(StickyItemRemover.RPC_WashOff), RpcTarget.All, character.view.ViewID);
          
     }
