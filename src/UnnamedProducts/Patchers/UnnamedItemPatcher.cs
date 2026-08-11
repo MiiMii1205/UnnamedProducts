@@ -78,9 +78,9 @@ public static class UnnamedItemPatcher
         }
     }
 
-    [HarmonyPatch(typeof(Breakable), nameof(Breakable.RPC_NonItemBreak))]
+    [HarmonyPatch(typeof(Breakable), nameof(Breakable.RPC_BroadcastBreak))]
     [HarmonyPrefix]
-    public static void BreakableNonItemPrefix(Breakable __instance, ref bool __runOriginal)
+    public static void BroadcastBreakPrefix(Breakable __instance, ref bool __runOriginal)
     {
         if (UnnamedPlugin.IsUnnamed(__instance.gameObject))
         {
@@ -491,11 +491,11 @@ public static class UnnamedItemPatcher
                         var vector = Vector3.Lerp(__instance.minOffset, __instance.maxOffset, Random.Range(0f, 1f));
                         var transform = __instance.character.GetBodypart(__instance.location).transform;
                         var position = transform.position + transform.TransformVector(vector);
-                        __instance.character.refs.afflictions.AddThorn(position);
+                        __instance.character.refs.afflictions.AddThorn(position, 0);
                     }
                     else
                     {
-                        __instance.character.refs.afflictions.AddThorn(999);
+                        __instance.character.refs.afflictions.AddThorn(0);
                     }
 
                     i--;

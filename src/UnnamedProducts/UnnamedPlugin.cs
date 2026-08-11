@@ -470,8 +470,8 @@ public partial class UnnamedPlugin : BaseUnityPlugin
             LargeLuggageInteriorMaterial = peakBundle.LoadAsset<Material>("M_UnnamedLuggage_interior_large.mat");
             
             // TODO: Replace it with clowns 
-            ClownLuggageMaterial = peakBundle.LoadAsset<Material>("M_UnnamedLuggage_large.mat");
-            ClownLuggageInteriorMaterial = peakBundle.LoadAsset<Material>("M_UnnamedLuggage_interior_large.mat");
+            ClownLuggageMaterial = peakBundle.LoadAsset<Material>("M_UnnamedLuggage_Clown.mat");
+            ClownLuggageInteriorMaterial = peakBundle.LoadAsset<Material>("M_UnnamedLuggage_Clown_interior.mat");
             
             AncientLuggageMaterial = peakBundle.LoadAsset<Material>("M_UnnamedLuggage_ancient.mat");
             AncientLuggageMetalMaterial = peakBundle.LoadAsset<Material>("M_UnnamedMetal.mat");
@@ -648,7 +648,7 @@ public partial class UnnamedPlugin : BaseUnityPlugin
             EpicUnnamedLuggagePrefab = GenerateUnnamedLuggagePrefab("0_Items/LuggageEpic");
             AncientUnnamedLuggagePrefab = GenerateUnnamedLuggagePrefab("0_Items/LuggageAncient");
             
-            // ClownUnnamedLuggagePrefab = GenerateUnnamedLuggagePrefab("0_Items/LuggageClown");
+            ClownUnnamedLuggagePrefab = GenerateUnnamedLuggagePrefab("0_Items/LuggageClown");
 
 
             // Airport setup
@@ -1472,7 +1472,6 @@ public partial class UnnamedPlugin : BaseUnityPlugin
                 hok.launchForce = oldComponent.launchForce;
                 hok.liftForce = oldComponent.liftForce;
                 hok.actionReduceUses = oldComponent.actionReduceUses;
-                hok.camera = oldComponent.camera;
                 hok.currentDistance = oldComponent.currentDistance;
                 hok.fly = oldComponent.fly;
                 hok.hitNothing = oldComponent.hitNothing;
@@ -1666,8 +1665,7 @@ public partial class UnnamedPlugin : BaseUnityPlugin
                 chl.cantReFire = oldComponent.cantReFire;
                 chl.spawnPoint = oldComponent.spawnPoint;
                 chl.length = oldComponent.length;
-
-                chl.hideOnFire = oldComponent.hideOnFire;
+                
                 chl.screenshakeIntensity = oldComponent.screenshakeIntensity;
                 chl.startAmmo = oldComponent.startAmmo;
                 chl.shotSound = oldComponent.shotSound;

@@ -99,7 +99,7 @@ public class UnnamedScoutCannon: ScoutCannon
         
         UnnamedPlugin.Log.LogInfo($"Launching {characterTarget.characterName} from {nameof(UnnamedScoutCannon)} {gameObject.name} with a force of {force} instead of {launchForce} and at {dir} instead of {tube.forward}.");
         
-        characterTarget.RPCA_Fall((force * this.fallFor) / launchForce );
+        characterTarget.RPCA_Fall((force * this.fallFor) / launchForce, 0f );
         characterTarget.AddForce(dir * force);
         StartCoroutine(ILaunch());
 

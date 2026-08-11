@@ -74,6 +74,14 @@ public class LuggageBrandHandler : MonoBehaviourPunCallbacks
                             newMats.Add(Instantiate(UnnamedPlugin.EpicLuggageMaterial));
                             break;
 
+                        case "M_Luggage_Clown":
+                            newMats.Add(Instantiate(UnnamedPlugin.ClownLuggageMaterial));
+                            break;
+
+                        case "M_Luggage_Clown_interior":
+                            newMats.Add(Instantiate(UnnamedPlugin.ClownLuggageInteriorMaterial));
+                            break;
+
                         case "M_Metal":
                             newMats.Add(Instantiate(UnnamedPlugin.AncientLuggageMetalMaterial));
                             break;

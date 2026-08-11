@@ -16,12 +16,6 @@ public class UnnamedRopeShooter : RopeShooter
         UnnamedPlugin.Log.LogInfo($"{nameof(UnnamedRopeShooter)} {item.name} currently has a reach of {maxLength} m");
     }
 
-    [PunRPC]
-    public new void Sync_Rpc(bool show)
-    {
-        base.Sync_Rpc(show);
-    }
-
     private FloatItemData GetNewLength()
     {
         return new FloatItemData

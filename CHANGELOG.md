@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.1.0] - 2026-08-11
+
+### Added ###
+
+- Added Unnamed Clown Luggage
+
+## [2.0.0] - 2026-08-11
+
+### Changed ###
+
+- The Final Ascent hotfix.
+
 ## [1.3.1] - 2026-07-29
 
 ### Added ###
